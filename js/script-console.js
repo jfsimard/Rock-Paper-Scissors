@@ -6,29 +6,26 @@ let halScore = 0;
 let davidScore = 0;
 let round = 0;
 const maxRounds = 5;
-let btns = document.querySelectorAll('.sel');
 
 
 function getHalChoice() {
     let index = Math.floor(Math.random() * toolBox.length);
     return toolBox[(index)];
 }
-function playRound(david) {
-    console.log("I am in playRound");
-    //let davidSelection;
-    let davidSelection = david; 
-    console.log(davidSelection);
+function playRound() {
+    let davidSelection;
+    davidSelection = prompt('What is your selection?'); 
     if(davidSelection === null || davidSelection === "") {
         resetValues();
         return;
     }
-    //let ucDavidSelection = davidSelection.toUpperCase();
+    let ucDavidSelection = davidSelection.toUpperCase();
         
     let halSelection = getHalChoice();
     let winner = 0;
-    let roundResults = {"davidSelection": davidSelection, "halSelection": halSelection, "winner": winner};
+    let roundResults = {"davidSelection": ucDavidSelection, "halSelection": halSelection, "winner": winner};
     
-    if(davidSelection == "ROCK") {
+    if(ucDavidSelection == "ROCK") {
         if(halSelection == "SCISSORS") {
             roundResults.winner = 1;
         } else if(halSelection == "PAPER") {
@@ -36,7 +33,7 @@ function playRound(david) {
         } else {
             roundResults.winner = 0;
         }       
-    } else if(davidSelection == "PAPER") {
+    } else if(ucDavidSelection == "PAPER") {
         if(halSelection == "ROCK") {
             roundResults.winner = 1;
         } else if(halSelection == "SCISSORS") {
@@ -44,7 +41,7 @@ function playRound(david) {
         } else {
             roundResults.winner = 0;
         }   
-    } else if(davidSelection == "SCISSORS") {
+    } else if(ucDavidSelection == "SCISSORS") {
         if(halSelection === "PAPER") {
             roundResults.winner = 1;
         } else if(halSelection == "ROCK") {
@@ -53,7 +50,7 @@ function playRound(david) {
             roundResults.winner = 0;
         }
     } else {
-        console.log("Invalid Selection, click again");
+        davidSelection = prompt(ucDavidSelection + " is not a valid selection, please try again:");
     }
     updateScoreBoard(roundResults); 
 }
@@ -86,7 +83,7 @@ function updateScoreBoard(results) {
         msg = `${res.davidSelection} and ${res.halSelection} we have a tie, let's start over
         David: ${davidScore} vs HAL: ${halScore}`;
         console.log(msg);
-        //playRound();
+        playRound();
     }
 }
 
@@ -98,16 +95,9 @@ function resetValues() {
 
 const playButton = document.querySelector('.play-btn');
 
-// playButton.addEventListener('click', () => {
-//         for (let round = 1; round <= maxRounds; round++) {
-//             playRound();
-//         }
-//     }
-// );
-//getDavidsChoice();
-btns.forEach(function(elem) {
-    elem.addEventListener('click', (e) => {
-        console.log(e.target.textContent);
-        playRound(e.target.textContent);
-    });
-});
+playButton.addEventListener('click', () => {
+        for (let round = 1; round <= maxRounds; round++) {
+            playRound();
+        }
+    }
+);
