@@ -14,10 +14,8 @@ function getHalChoice() {
     return toolBox[(index)];
 }
 function playRound(david) {
-    console.log("I am in playRound");
     //let davidSelection;
     let davidSelection = david; 
-    console.log(davidSelection);
     if(davidSelection === null || davidSelection === "") {
         resetValues();
         return;
@@ -65,28 +63,27 @@ function updateScoreBoard(results) {
     if(res.winner === 1) {
         davidScore += 1;
         round += 1;
-        msg = `${res.davidSelection} beats ${res.halSelection} David wins round ${round}
-        David: ${davidScore} vs HAL: ${halScore}`;
+        msg = `${res.davidSelection} beats ${res.halSelection} Dave wins round ${round}
+        Dave: ${davidScore} vs HAL: ${halScore}`;
         console.log(msg);
         if( (davidScore > halScore) && (davidScore + halScore === 5) ) {
             resetValues();
-            console.log("Congratulations David, you beat HAL the not so nice computer!!!");
+            console.log("Congratulations Dave, you beat me!!!");
         }
     } else if(res.winner === 2) {
         halScore += 1;
         round += 1;
         msg = `${res.halSelection} beats ${res.davidSelection} Hal wins round ${round}
-        David: ${davidScore} vs HAL: ${halScore}`;
+        Dave: ${davidScore} vs HAL: ${halScore}`;
         console.log(msg);
         if( (halScore > davidScore) && (halScore + davidScore === 5) ) {
             resetValues();
-            console.log("Congratulations to HAL the computer!!! David, try again.");
+            console.log("Me HAL the computer am the winner!!! Dave, try again.");
         }
     } else {
-        msg = `${res.davidSelection} and ${res.halSelection} we have a tie, let's start over
-        David: ${davidScore} vs HAL: ${halScore}`;
+        msg = `${res.davidSelection} and ${res.halSelection} we have a tie, make another selection 
+        Dave: ${davidScore} vs HAL: ${halScore}`;
         console.log(msg);
-        //playRound();
     }
 }
 
@@ -97,17 +94,10 @@ function resetValues() {
 }
 
 const playButton = document.querySelector('.play-btn');
+playButton.style.display = "none";
 
-// playButton.addEventListener('click', () => {
-//         for (let round = 1; round <= maxRounds; round++) {
-//             playRound();
-//         }
-//     }
-// );
-//getDavidsChoice();
 btns.forEach(function(elem) {
     elem.addEventListener('click', (e) => {
-        console.log(e.target.textContent);
         playRound(e.target.textContent);
     });
 });
