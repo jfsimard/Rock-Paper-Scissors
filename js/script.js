@@ -14,13 +14,11 @@ function getHalChoice() {
     return toolBox[(index)];
 }
 function playRound(david) {
-    //let davidSelection;
     let davidSelection = david; 
     if(davidSelection === null || davidSelection === "") {
         resetValues();
         return;
     }
-    //let ucDavidSelection = davidSelection.toUpperCase();
         
     let halSelection = getHalChoice();
     let winner = 0;
