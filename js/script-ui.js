@@ -6,7 +6,39 @@ let halScore = 0;
 let davidScore = 0;
 let round = 0;
 const maxRounds = 5;
-let btns = document.querySelectorAll('.sel');
+const container = document.querySelector('.container');
+
+const btnDiv = document.createElement('div');
+btnDiv.classList.add('buttons');
+container.appendChild(btnDiv);
+
+const scoreBoard = document.createElement('div');
+scoreBoard.classList.add('scoreboard');
+container.appendChild(scoreBoard);
+
+let selections = document.createElement('p');
+selections.classList.add('selections');
+selections.textContent = "";
+scoreBoard.appendChild(selections);
+
+
+let score = document.createElement('p');
+score.classList.add('score');
+score.textContent = `Dave: ${davidScore} HAL: ${halScore}`;
+scoreBoard.appendChild(score);
+
+let game = document.createElement('p');
+game.classList.add('game');
+game.textContent = "Let\'s play!";
+scoreBoard.appendChild(game);
+
+
+toolBox.forEach((tool) => {
+    const btn = document.createElement('button');
+    btn.classList.add('btn', 'sel');
+    btn.textContent = tool;
+    btnDiv.appendChild(btn);
+});
 
 
 function getHalChoice() {
@@ -57,31 +89,32 @@ function playRound(david) {
 
 function updateScoreBoard(results) {
     let res = results;
-    let msg = "";
     if(res.winner === 1) {
         davidScore += 1;
         round += 1;
-        msg = `${res.davidSelection} beats ${res.halSelection} Dave wins round ${round}
-        Dave: ${davidScore} vs HAL: ${halScore}`;
-        console.log(msg);
-        if( (davidScore > halScore) && (davidScore + halScore === 5) ) {
+        selections.textContent = `${res.davidSelection} beats ${res.halSelection}`;
+        score.textContent = `Dave: ${davidScore} vs HAL: ${halScore}`;
+        game.textContent = `Dave wins round ${round}`
+        
+        if( (davidScore > halScore) && (davidScore === 5) ) {
             resetValues();
-            console.log("Congratulations Dave, you beat me!!!");
+            game.textContent = "Congratulations Dave, you beat me!!!";
         }
     } else if(res.winner === 2) {
         halScore += 1;
         round += 1;
-        msg = `${res.halSelection} beats ${res.davidSelection} Hal wins round ${round}
-        Dave: ${davidScore} vs HAL: ${halScore}`;
-        console.log(msg);
-        if( (halScore > davidScore) && (halScore + davidScore === 5) ) {
+        selections.textContent = `${res.halSelection} beats ${res.davidSelection}`;
+        game.textContent =  `Hal wins round ${round}`;
+        score.textContent = `${davidScore} vs HAL: ${halScore}`;
+
+        if( (halScore > davidScore) && (halScore === 5) ) {
             resetValues();
-            console.log("Me HAL the computer am the winner!!! Dave, try again.");
+            game.textContent = "HAL is the winner!!! Dave, try again.";
         }
     } else {
-        msg = `${res.davidSelection} and ${res.halSelection} we have a tie, make another selection 
-        Dave: ${davidScore} vs HAL: ${halScore}`;
-        console.log(msg);
+        selections.textContent = `${res.davidSelection} and ${res.halSelection}`
+        game.textContent = `We have a tie, click another`;
+        score.textContent = `${davidScore} vs HAL: ${halScore}`;
     }
 }
 
@@ -90,6 +123,8 @@ function resetValues() {
     halScore = 0;
     davidScore = 0;
 }
+
+btns = btnDiv.querySelectorAll('.sel');
 
 btns.forEach(function(elem) {
     elem.addEventListener('click', (e) => {
